@@ -1,26 +1,41 @@
 import type { Metadata, Viewport } from "next";
-import { Space_Grotesk, JetBrains_Mono, IBM_Plex_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { NavToneProvider } from "@/components/NavToneContext";
 import { HomeReelProvider } from "@/components/HomeReelContext";
 import Nav from "@/components/Nav";
 
-const spaceGrotesk = Space_Grotesk({
+// Self-hosted (not next/font/google) on purpose: the Google Fonts fetch at
+// build time was failing intermittently on Vercel and killing the build with
+// "Failed to collect page data for /_not-found". These files are vendored
+// from @fontsource under SIL OFL, so the build has no network dependency.
+const spaceGrotesk = localFont({
   variable: "--font-space-grotesk",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  src: [
+    { path: "./fonts/space-grotesk-500.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/space-grotesk-600.woff2", weight: "600", style: "normal" },
+    { path: "./fonts/space-grotesk-700.woff2", weight: "700", style: "normal" },
+  ],
+  display: "swap",
 });
 
-const jetbrainsMono = JetBrains_Mono({
+const jetbrainsMono = localFont({
   variable: "--font-jetbrains-mono",
-  subsets: ["latin"],
-  weight: ["400", "500"],
+  src: [
+    { path: "./fonts/jetbrains-mono-400.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/jetbrains-mono-500.woff2", weight: "500", style: "normal" },
+  ],
+  display: "swap",
 });
 
-const ibmPlexSans = IBM_Plex_Sans({
+const ibmPlexSans = localFont({
   variable: "--font-ibm-plex-sans",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  src: [
+    { path: "./fonts/ibm-plex-sans-400.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/ibm-plex-sans-500.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/ibm-plex-sans-600.woff2", weight: "600", style: "normal" },
+  ],
+  display: "swap",
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://deservv.com";
