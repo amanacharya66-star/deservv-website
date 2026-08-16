@@ -38,14 +38,25 @@ const ibmPlexSans = localFont({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://deservv.com";
+// `||`, not `??`: an empty string (which is what a blank env var resolves to,
+// not undefined) must also fall through to the default. `new URL("")` throws
+// and takes the whole build down with it — this killed two Vercel deploys.
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://deservv.com";
+
+function safeMetadataBase(url: string): URL {
+  try {
+    return new URL(url);
+  } catch {
+    return new URL("https://deservv.com");
+  }
+}
 
 const title = "Deservv — Applied & Agentic AI";
 const description =
   "Twelve years of courses. Nothing changed on Monday. Fifteen days, one instructor, systems that run inside your job.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: safeMetadataBase(siteUrl),
   title: {
     default: title,
     template: "%s — Deservv",
